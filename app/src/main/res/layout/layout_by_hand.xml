@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--&lt;!&ndash;把其他地方的layout放到当前的layout中,可以在任何地方放置任意个&ndash;&gt;-->
+    <!--<include layout="@layout/layout_placetest"></include>-->
+    <!--<include layout="@layout/layout_placetest"></include>-->
+    <com.example.booktest.UserControlActivity
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <FrameLayout
+        android:id="@+id/fragment_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </FrameLayout>
+    <fragment
+        android:id="@+id/fragment_test"
+        android:name="com.example.booktest.FragmentOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <fragment
+        android:id="@+id/fragment_two"
+        android:name="com.example.booktest.FragmentTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/by_hand_button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="显式Intent"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/by_hand_button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="隐式Intent"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/by_hand_button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="从下一个活动中返回"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/by_hand_button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="显示一个通知"
+        android:textAllCaps="false" />
+</LinearLayout>
