@@ -3,6 +3,7 @@ package com.example.booktest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -112,21 +113,41 @@ public class ByHandActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void showSomeNotification() {
 
+    private void showSomeNotification() {
+        createChannel();
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        String channelId = "notification_simple";
+        NotificationCompat.Builder builder;
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId, "hideki", NotificationManager.IMPORTANCE_DEFAULT);
-            manager.createNotificationChannel(channel);
+            builder = new NotificationCompat.Builder(ByHandActivity.this,"normal");
         }
-        Notification notification = new NotificationCompat.Builder(ByHandActivity.this,channelId)
-                .setContentTitle("我也不知道些啥")
-                .setContentText("这大概就是内容吧")
-                .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher)).build();
+        else {
+            builder = new NotificationCompat.Builder(ByHandActivity.this);
+        }
+        Intent intent = new Intent(this,SecondActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        builder.setContentTitle("我也不知道些啥");
+        builder.setContentText("这大概就是内容吧");
+        builder.setWhen(System.currentTimeMillis());
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher));
+        builder.setContentIntent(pendingIntent);
+//        builder.setFullScreenIntent(pendingIntent,true);
+        builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(BitmapFactory.decodeResource(getResources(),R.drawable.sunnyday)));
+//        builder.setStyle(new NotificationCompat.BigTextStyle().bigText("1212312313123123123211231231312312312321321123123131231231232112312313123123123213213123131231231232112312313123123123213213123123112312313123123123213213123123132131231231撒德哈空间"));
+//        builder.setAutoCancel(true);
+        Notification notification = builder.build();
         manager.notify(762,notification);
+    }
+
+    private NotificationChannel normalChannel;
+    private NotificationChannel importantChannel;
+    private void createChannel() {
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        normalChannel = new NotificationChannel("normal", "普通消息通知", NotificationManager.IMPORTANCE_DEFAULT);
+        manager.createNotificationChannel(normalChannel);
+        importantChannel = new NotificationChannel("important", "重要消息通知", NotificationManager.IMPORTANCE_HIGH);
+        manager.createNotificationChannel(importantChannel);
     }
 
     //监听该事件,返回后会回调该方法
