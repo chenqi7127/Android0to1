@@ -47,4 +47,21 @@
         android:layout_height="wrap_content"
         android:text="显示一个通知"
         android:textAllCaps="false" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/save_file"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="保存一个本地文件"/>
+        <Button
+            android:id="@+id/read_file"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="读取一个本地文件"/>
+    </LinearLayout>
+
 </LinearLayout>

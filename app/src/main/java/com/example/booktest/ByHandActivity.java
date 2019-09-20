@@ -22,6 +22,16 @@ import android.os.Bundle;
 import android.transition.Transition;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class ByHandActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -51,6 +61,10 @@ public class ByHandActivity extends AppCompatActivity implements View.OnClickLis
         fragmentButton.setOnClickListener(this);
         Button swapButton = findViewById(R.id.fragment_swap);
         swapButton.setOnClickListener(this);
+        Button saveFileButton = findViewById(R.id.save_file);
+        saveFileButton.setOnClickListener(this);
+        Button readFileButton = findViewById(R.id.read_file);
+        readFileButton.setOnClickListener(this);
         mReceiver = new MyNetReceiver();
         //声明一个IntentFilter并加入需要坚挺的action 然后通过registerReceiver来注册
         IntentFilter intentFilter = new IntentFilter();
@@ -110,6 +124,43 @@ public class ByHandActivity extends AppCompatActivity implements View.OnClickLis
                 transition.addToBackStack(null);
                 transition.commit();
                 break;
+            case R.id.save_file:
+                BufferedWriter bufferedWriter = null;
+                try {
+                    FileOutputStream fileOutputStream = openFileOutput("viwesonic",Context.MODE_PRIVATE);
+                    bufferedWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+                    bufferedWriter.write("让我们荡起双桨,小船儿推开波浪!!!!!!");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        if (bufferedWriter != null){
+                            bufferedWriter.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case R.id.read_file:
+                BufferedReader bufferedReader = null;
+                try {
+                    FileInputStream fileInputStream = openFileInput("viwesonic");
+                    bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+                    Toast.makeText(this, bufferedReader.readLine(), Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    try {
+                        if (bufferedReader!=null){
+                            bufferedReader.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
         }
     }
 
@@ -143,11 +194,13 @@ public class ByHandActivity extends AppCompatActivity implements View.OnClickLis
     private NotificationChannel normalChannel;
     private NotificationChannel importantChannel;
     private void createChannel() {
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        normalChannel = new NotificationChannel("normal", "普通消息通知", NotificationManager.IMPORTANCE_DEFAULT);
-        manager.createNotificationChannel(normalChannel);
-        importantChannel = new NotificationChannel("important", "重要消息通知", NotificationManager.IMPORTANCE_HIGH);
-        manager.createNotificationChannel(importantChannel);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            normalChannel = new NotificationChannel("normal", "普通消息通知", NotificationManager.IMPORTANCE_DEFAULT);
+            manager.createNotificationChannel(normalChannel);
+            importantChannel = new NotificationChannel("important", "重要消息通知", NotificationManager.IMPORTANCE_HIGH);
+            manager.createNotificationChannel(importantChannel);
+        }
     }
 
     //监听该事件,返回后会回调该方法
