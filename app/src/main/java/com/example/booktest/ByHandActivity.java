@@ -65,6 +65,8 @@ public class ByHandActivity extends AppCompatActivity implements View.OnClickLis
         saveFileButton.setOnClickListener(this);
         Button readFileButton = findViewById(R.id.read_file);
         readFileButton.setOnClickListener(this);
+        Button takePhoto = findViewById(R.id.take_photo);
+        takePhoto.setOnClickListener(this);
         mReceiver = new MyNetReceiver();
         //声明一个IntentFilter并加入需要坚挺的action 然后通过registerReceiver来注册
         IntentFilter intentFilter = new IntentFilter();
@@ -160,6 +162,10 @@ public class ByHandActivity extends AppCompatActivity implements View.OnClickLis
                         e.printStackTrace();
                     }
                 }
+                break;
+            case R.id.take_photo:
+                Intent photoIntent = new Intent(this,TakePhotoActivity.class);
+                startActivity(photoIntent);
                 break;
         }
     }

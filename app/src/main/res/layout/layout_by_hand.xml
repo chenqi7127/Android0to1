@@ -63,5 +63,10 @@
             android:layout_weight="1"
             android:text="读取一个本地文件"/>
     </LinearLayout>
+    <Button
+        android:id="@+id/take_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="拍照测试"/>
 
 </LinearLayout>
